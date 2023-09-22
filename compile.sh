@@ -6,13 +6,17 @@ then
 fi
 PREVWD=$PWD
 cln $1
-g++ $1/$1.cpp -o $1/$1 -Wall
+if [ ! -d dist ]
+then
+    mkdir dist
+fi
+g++ $1/$1.cpp -o dist/$1 -Wall
 if [ $? != 0 ]
 then
     return 1
 fi
 cd $1
-sudo ./$1
+sudo $PREVWD/dist/$1
 if [ -f $1.out ]
 then
     cat $1.out
