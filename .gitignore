@@ -1,0 +1,7 @@
+*
+!.gitignore
+!test
+!test/*
+!template
+!template/*
+!*.sh
