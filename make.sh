@@ -13,4 +13,6 @@ else
     fi
     touch $1/$1.in
     python3 make.py $1
+    code -r $1/$1.cpp
+    code -r $1/$1.in
 fi

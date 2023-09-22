@@ -20,5 +20,6 @@ sudo $PREVWD/dist/$1
 if [ -f $1.out ]
 then
     cat $1.out
+    code -r $1.out
 fi
 cd $PREVWD
