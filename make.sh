@@ -12,7 +12,7 @@ else
         mkdir $1
     fi
     touch $1/$1.in
-    python3 make.py $1
+    python3 make.py $@
     code -r $1/$1.cpp
     code -r $1/$1.in
 fi
