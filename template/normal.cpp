@@ -28,7 +28,8 @@ signed main(){
     int T = 1;// cin >> T;
     for (int i = 1; i <= T; i++){
 #ifndef ONLINE_JUDGE
-        cout << "Test Case #" << i << endl;
+        if (T != 1)
+            cout << "Test Case #" << i << endl;
 #endif
         solve();
     }
