@@ -16,8 +16,6 @@ void solve(){
 
 signed main(){
 #ifndef ONLINE_JUDGE
-    freopen("{problem name}.in", "r", stdin);
-    freopen("{problem name}.out", "w", stdout);
     struct rlimit lim;
     lim.rlim_cur = lim.rlim_max = MEM_LIMIT*1'000'000;
     setrlimit(RLIMIT_AS, &lim);

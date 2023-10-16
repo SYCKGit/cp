@@ -1,3 +1,3 @@
 #!/bin/sh
 rm -f  $1/$1.out
-rm -f dist/$1
+rm -f zdist/$1

@@ -6,17 +6,17 @@ then
 fi
 PREVWD=$PWD
 cln $1
-if [ ! -d dist ]
+if [ ! -d zdist ]
 then
-    mkdir dist
+    mkdir zdist
 fi
-g++ $1/$1.cpp -o dist/$1 -Wall
+g++ $1/$1.cpp -o zdist/$1 -Wall
 if [ $? != 0 ]
 then
     return 1
 fi
 cd $1
-sudo $PREVWD/dist/$1
+sudo $PREVWD/zdist/$1 < $1.in > $1.out
 if [ -f $1.out ]
 then
     cat $1.out

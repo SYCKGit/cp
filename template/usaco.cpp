@@ -16,8 +16,10 @@ void solve(){
 }
 
 signed main(){
+#ifdef ONLINE_JUDGE
     freopen("{problem name}.in", "r", stdin);
     freopen("{problem name}.out", "w", stdout);
+#endif
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 #ifndef ONLINE_JUDGE

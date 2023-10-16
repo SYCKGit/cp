@@ -1,2 +1,2 @@
-rm -f dist/$1
+rm -f zdist/$1
 rm -rf $1
