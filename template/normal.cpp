@@ -14,7 +14,7 @@ void solve(){
     
 }
 
-signed main(){
+int32_t main(){
 #ifndef ONLINE_JUDGE
     struct rlimit lim;
     lim.rlim_cur = lim.rlim_max = MEM_LIMIT*1'000'000;

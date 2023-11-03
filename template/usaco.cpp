@@ -15,7 +15,7 @@ void solve(){
     
 }
 
-signed main(){
+int32_t main(){
 #ifdef ONLINE_JUDGE
     freopen("{problem name}.in", "r", stdin);
     freopen("{problem name}.out", "w", stdout);
