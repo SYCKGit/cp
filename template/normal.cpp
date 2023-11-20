@@ -1,14 +1,12 @@
-#define MEM_LIMIT 256
 #include <bits/stdc++.h>
 using namespace std;
-#ifndef ONLINE_JUDGE
-    #include <sys/resource.h>
-#else
+#ifdef ONLINE_JUDGE
     #define endl '\n'
 #endif
 #define int long long
 typedef vector<int> vi; typedef vector<vector<int>> vvi; typedef vector<bool> vb; typedef vector<vector<bool>> vvb; typedef pair<int, int> pii; typedef pair<int, pair<int, int>> pipii; typedef deque<int> di; typedef deque<deque<int>> ddi; typedef map<int, int> mii; typedef map<int, pair<int, int>> mipii; typedef map<pair<int, int>, int> mpiii;
 const int mod = 1000000007; // 10^9 + 7
+const int INF = 1e17;
 
 // MAIN CODE
 void solve(){
@@ -17,10 +15,7 @@ void solve(){
 
 int32_t main(){
 #ifndef ONLINE_JUDGE
-    struct rlimit lim;
-    lim.rlim_cur = lim.rlim_max = MEM_LIMIT*1'000'000;
-    setrlimit(RLIMIT_AS, &lim);
-    auto begin = std::chrono::high_resolution_clock::now();
+    auto begin = chrono::high_resolution_clock::now();
 #endif
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -33,7 +28,7 @@ int32_t main(){
         solve();
     }
 #ifndef ONLINE_JUDGE
-    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - begin);
+    auto elapsed = chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - begin);
     cout << "Time Taken : " << (elapsed.count() * 1e-9) << " seconds" << endl;
 #endif
     return 0;
