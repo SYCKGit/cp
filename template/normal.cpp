@@ -1,10 +1,11 @@
 #define MEM_LIMIT 256
-#ifndef ONLINE_JUDGE
-    #include <sys/resource.h>
-#endif
 #include <bits/stdc++.h>
 using namespace std;
-#define endl '\n'
+#ifndef ONLINE_JUDGE
+    #include <sys/resource.h>
+#else
+    #define endl '\n'
+#endif
 #define int long long
 typedef vector<int> vi; typedef vector<vector<int>> vvi; typedef vector<bool> vb; typedef vector<vector<bool>> vvb; typedef pair<int, int> pii; typedef pair<int, pair<int, int>> pipii; typedef deque<int> di; typedef deque<deque<int>> ddi; typedef map<int, int> mii; typedef map<int, pair<int, int>> mipii; typedef map<pair<int, int>, int> mpiii;
 const int mod = 1000000007; // 10^9 + 7
