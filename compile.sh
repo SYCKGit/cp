@@ -10,7 +10,7 @@ if [ ! -d zdist ]
 then
     mkdir zdist
 fi
-g++ $1/$1.cpp -o zdist/$1 -Wall
+g++ $1/$1.cpp -o zdist/$1 -Wall ${@:2}
 if [ $? != 0 ]
 then
     return 1
