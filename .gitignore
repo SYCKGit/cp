@@ -4,5 +4,6 @@
 !test/*
 !template
 !template/*
+!template/full/*
 !make.py
 !*.sh
