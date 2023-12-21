@@ -5,6 +5,7 @@ using namespace std;
     #define endl '\n'
 #endif
 #define int long long
+#define all(x) x.begin(), x.end()
 typedef vector<int> vi; typedef vector<vector<int>> vvi; typedef vector<bool> vb; typedef vector<vector<bool>> vvb; typedef pair<int, int> pii; typedef map<int, int> mii; typedef map<int, vector<int>> mivi;
 const int mod = 1000000007; // 10^9 + 7
 
@@ -25,7 +26,7 @@ int32_t main(){
 #endif
     solve();
 #ifndef ONLINE_JUDGE
-    auto elapsed = chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - begin);
+    auto elapsed = chrono::duration_cast<chrono::nanoseconds>(chrono::high_resolution_clock::now() - begin);
     cout << "Time Taken : " << (elapsed.count() * 1e-9) << " seconds" << endl;
 #endif
     return 0;
