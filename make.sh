@@ -1,4 +1,3 @@
-#!/bin/sh
 source ~/.bash_aliases
 if [ -d $1 ] && [[ $2 != "-f" ]]
 then
@@ -7,7 +6,7 @@ else
     if [ -d $1 ]
     then
         cln $1
-        rm $1/in.txt
+        rm $1/$1.in
     else
         mkdir $1
     fi

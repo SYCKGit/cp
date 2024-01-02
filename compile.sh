@@ -1,4 +1,3 @@
-#!/bin/sh
 if [ ! -d $1 ]
 then
     echo "Problem directory does not exist"
