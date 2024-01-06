@@ -5,7 +5,7 @@ using namespace std;
 #endif
 #define int long long
 #define all(x) x.begin(), x.end()
-typedef vector<int> vi; typedef vector<vector<int>> vvi; typedef vector<bool> vb; typedef vector<vector<bool>> vvb; typedef pair<int, int> pii; typedef map<int, int> mii; typedef map<int, vector<int>> mivi;
+typedef long double ld; typedef vector<int> vi; typedef vector<vector<int>> vvi; typedef vector<bool> vb; typedef vector<vector<bool>> vvb; typedef pair<int, int> pii; typedef map<int, int> mii; typedef map<int, vector<int>> mivi;
 const int mod = 1000000007; // 10^9 + 7
 const int INF = 1e17;
 
