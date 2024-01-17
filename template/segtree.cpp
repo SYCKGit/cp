@@ -11,7 +11,7 @@ struct SegTree {
     SegTree(int n)
         : n{n}, a(n), seg(4*n, DEFAULT) {}
 
-    SegTree(vector<SEGTYPE> a)
+    SegTree(vector<SEGTYPE> &a)
         : n{(int)a.size()}, a{a}, seg(4*n) { build(0, n-1, 1); }
 
     SEGTYPE combine(SEGTYPE l, SEGTYPE r){

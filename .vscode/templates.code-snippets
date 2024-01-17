@@ -9,7 +9,7 @@
 			"\tSegTree(int n)",
 			"\t\t: n{n}, a(n), seg(4*n, ${2:0}) {}",
 			"",
-			"\tSegTree(vector<${1:int}> a)",
+			"\tSegTree(vector<${1:int}> &a)",
 			"\t\t: n{(int)a.size()}, a{a}, seg(4*n) { build(0, n-1, 1); }",
 			"",
 			"\t${1:int} combine(${1:int} l, ${1:int} r){",
