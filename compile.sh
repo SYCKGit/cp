@@ -16,7 +16,7 @@ then
 fi
 cd $1
 trap "cd $PREVWD" SIGINT
-sudo $PREVWD/zdist/$1 < $1.in > $1.out
+$PREVWD/zdist/$1 < $1.in > $1.out
 if [ -f $1.out ]
 then
     cat $1.out
