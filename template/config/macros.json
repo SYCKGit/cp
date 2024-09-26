@@ -1,0 +1,18 @@
+{
+  "templates": [
+    {
+      "name": "all",
+      "type": "macro",
+      "template": "#define all(x) (x).begin(), (x).end()"
+    },
+    {
+      "name": "endl",
+      "type": "macro",
+      "template": [
+        "#ifdef ONLINE_JUDGE",
+        "    #define endl '\\n'",
+        "#endif"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "templates": [
+    {
+      "name": "mod",
+      "template": "const int mod = 1000000007; // 10^9 + 7"
+    },
+    {
+      "name": "INF",
+      "template": "const int INF = 1e17;"
+    },
+    {
+      "name": "ld",
+      "template": "typedef long double ld;"
+    },
+    {
+      "name": "vi",
+      "template": "typedef vector<int> vi;"
+    },
+    {
+      "name": "vvi",
+      "requires": [ "vi" ],
+      "template": "typedef vector<vi> vvi;"
+    },
+    {
+      "name": "vb",
+      "template": "typedef vector<bool> vb;"
+    },
+    {
+      "name": "vvb",
+      "requires": [ "vb" ],
+      "template": "typedef vector<vb> vvb;"
+    },
+    {
+      "name": "pii",
+      "template": "typedef pair<int, int> pii;"
+    },
+    {
+      "name": "mii",
+      "template": "typedef map<int, int> mii;"
+    },
+    {
+      "name": "mivi",
+      "requires": [ "vi" ],
+      "template": "typedef map<int, vi> mivi;"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "extends": [
+    "template/config/aliases.json",
+    "template/config/macros.json"
+  ]
+}

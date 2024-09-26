@@ -1,10 +1,10 @@
 *
+!cpth.config.json
 !.gitignore
 !test
 !test/*
 !template
-!template/*
-!template/full/*
+!template/**/*
 !make.py
 !*.sh
 !.vscode
