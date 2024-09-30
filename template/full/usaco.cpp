@@ -3,6 +3,12 @@
 using namespace std;
 #define int long long
 
+// MACROS
+// ALIASES
+// DATA STRUCTURES
+// ALGORITHMS
+// MAIN
+
 void solve(){
     
 }
