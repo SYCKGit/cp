@@ -13,9 +13,6 @@ void solve(){
 }
 
 int32_t main(){
-#ifndef ONLINE_JUDGE
-    auto begin = chrono::high_resolution_clock::now();
-#endif
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     int T = 1; cin >> T;
@@ -26,9 +23,5 @@ int32_t main(){
 #endif
         solve();
     }
-#ifndef ONLINE_JUDGE
-    auto elapsed = chrono::duration_cast<chrono::nanoseconds>(chrono::high_resolution_clock::now() - begin);
-    cout << "Time Taken : " << (elapsed.count() * 1e-9) << " seconds" << endl;
-#endif
     return 0;
 }

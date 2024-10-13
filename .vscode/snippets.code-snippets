@@ -1,0 +1,23 @@
+{
+	"Record Beginning Time": {
+		"scope": "cpp",
+		"prefix": "tstart",
+		"body": [
+			"#ifndef ONLINE_JUDGE",
+			"    auto begin = chrono::high_resolution_clock::now();",
+			"#endif"
+		],
+		"description": "Store the current time in the `begin` variable"
+	},
+	"Show Execution Time": {
+		"scope": "cpp",
+		"prefix": "tend",
+		"body": [
+			"#ifndef ONLINE_JUDGE",
+			"    auto elapsed = chrono::duration_cast<chrono::nanoseconds>(chrono::high_resolution_clock::now() - begin);",
+			"    cout << \"Time Taken : \" << (elapsed.count() * 1e-9) << \" seconds\" << endl;",
+			"#endif"
+		],
+		"description": "Calculate and show the time difference between now and the time stored in `begin` in seconds"
+	}
+}
