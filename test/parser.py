@@ -111,7 +111,7 @@ class Parser:
         else: blocks.append(IfBlock(self.parse(i), prev_cond))
         return If(code, match["cond"], blocks)
 
-    def parse_op(self, op: str) ->  Object | None:
+    def parse_op(self, op: str) ->  Value | None:
         for p in self.operations:
             m = re.fullmatch(p, op)
             if m:

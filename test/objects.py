@@ -10,6 +10,7 @@ from typing import Any, Union
 __all__ = (
     "input_type",
     "Object",
+    "Value",
     "Integer",
     "Float",
     "Case",
@@ -22,16 +23,17 @@ __all__ = (
     "If"
 )
 
-input_type = Union['Object', 'ControlFlow']
+input_type = Union["Value", "ControlFlow"]
 
-# OBJECTS
 class Object(ABC):
-    def __init__(self, name: str):
-        self.name: str = name
-
     @abstractmethod
     def generate(self, *, values: dict[str, Any]):
         raise NotImplementedError(f"{self.__class__.__name__} generation has not been implemented yet")
+
+# VALUES
+class Value(Object):
+    def __init__(self, name: str):
+        self.name: str = name
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(name={self.name})"
@@ -39,7 +41,7 @@ class Object(ABC):
     def __repr__(self) -> str:
         return str(self)
 
-class Integer(Object):
+class Integer(Value):
     def __init__(self, name: str, l: int, r: int | None = None):
         super().__init__(name)
         self.l: int = l
@@ -51,7 +53,7 @@ class Integer(Object):
     def __str__(self):
         return f"Integer({self.name} [{self.l}, {self.r}])"
 
-class Float(Object):
+class Float(Value):
     def __init__(self, name: str, l: int, r: int):
         super().__init__(name)
         self.l = l
@@ -65,7 +67,7 @@ class Case(Enum):
     lower = "lower"
     upper = "upper"
 
-class TextType(Object):
+class TextType(Value):
     def __init__(self, name: str, case: Case):
         super().__init__(name)
         assert isinstance(case, Case), f"case argument is not an instance of Case ({case})"
@@ -93,8 +95,8 @@ class String(TextType):
     def generate(self) -> str:
         return "".join(self.getch() for _ in range(random.randint(self.l, self.r)))
 
-class Array(Object):
-    def __init__(self, length: str, type: Object):
+class Array(Value):
+    def __init__(self, length: str, type: Value):
         self.type = type
         self.length = length
         super().__init__(type.name)
@@ -110,7 +112,7 @@ class Array(Object):
         return ret
 
 # CONTROL FLOWS
-class ControlFlow(ABC):
+class ControlFlow(Object):
     def __init__(self, code: list[list[input_type]]):
         self.code = code
 
@@ -123,7 +125,7 @@ class ControlFlow(ABC):
                     val = op.generate(values=values)
                 else: val = op.generate() # type: ignore
                 curr.append(val)
-                if isinstance(op, Object):
+                if isinstance(op, Value):
                     values[op.name] = val
             ret.append(curr)
         return ret

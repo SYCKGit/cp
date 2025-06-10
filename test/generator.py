@@ -33,7 +33,7 @@ class Generator():
                 if "values" in signature(op.generate).parameters:
                     val = op.generate(values=values)
                 else: val = op.generate() # type: ignore
-                if isinstance(op, Object):
+                if isinstance(op, Value):
                     values[op.name] = val
                     curr += str(val) + " "
                 elif isinstance(op, ControlFlow):
