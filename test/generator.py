@@ -20,8 +20,8 @@ class Generator():
                         ret += Generator.to_str(op)[:-1]
                     else:
                         ret += " ".join(map(str, op))
-                else: ret += str(op)
-            ret += "\n"
+                else: ret += str(op) + " "
+            ret = ret.strip() + "\n"
         return ret
 
     def generate(self) -> str:
@@ -38,9 +38,9 @@ class Generator():
                     curr += str(val) + " "
                 elif isinstance(op, ControlFlow):
                     if curr:
-                        ret += curr + "\n"
+                        ret += curr.strip() + "\n"
                         curr = ""
                     ret += self.to_str(val)[:-1] + "\n"
             if curr:
-                ret += curr + "\n"
+                ret += curr.strip() + "\n"
         return ret
