@@ -13,6 +13,11 @@
         "    #define endl '\\n'",
         "#endif"
       ]
+    },
+    {
+      "name": "rall",
+      "type": "macro",
+      "template": "#define rall(x) (x).rbegin(), (x).rend()"
     }
   ]
 }
