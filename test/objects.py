@@ -8,7 +8,6 @@ from inspect import signature
 from typing import Any, Union
 
 __all__ = (
-    "input_type",
     "Object",
     "Value",
     "Integer",
@@ -22,8 +21,6 @@ __all__ = (
     "IfBlock",
     "If"
 )
-
-input_type = Union["Value", "ControlFlow"]
 
 class Object(ABC):
     @abstractmethod
@@ -113,7 +110,7 @@ class Array(Value):
 
 # CONTROL FLOWS
 class ControlFlow(Object):
-    def __init__(self, code: list[list[input_type]]):
+    def __init__(self, code: list[list[Object]]):
         self.code = code
 
     def generate(self, *, values: dict[str, Any]) -> list[list[Any]]:
@@ -137,7 +134,7 @@ class ControlFlow(Object):
         return str(self)
 
 class Loop(ControlFlow):
-    def __init__(self, var: str, code: list[list[input_type]]):
+    def __init__(self, var: str, code: list[list[Object]]):
         super().__init__(code)
         self.var = var
 
@@ -152,12 +149,12 @@ class Loop(ControlFlow):
         return ret
 
 class IfBlock(ControlFlow):
-    def __init__(self, code: list[list[input_type]],  cond: str | None = None):
+    def __init__(self, code: list[list[Object]],  cond: str | None = None):
         super().__init__(code)
         self.cond = cond
 
 class If(ControlFlow):
-    def __init__(self, code: list[list[input_type]], cond: str, blocks: list[IfBlock]):
+    def __init__(self, code: list[list[Object]], cond: str, blocks: list[IfBlock]):
         super().__init__(code)
         self.blocks = blocks
         self.cond: str = cond

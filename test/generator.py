@@ -4,10 +4,10 @@ from .exceptions import *
 from inspect import signature
 
 class Generator():
-    def __init__(self, code: list[list[input_type]] | Parser):
+    def __init__(self, code: list[list[Object]] | Parser):
         if isinstance(code, Parser):
             code = code.parse()
-        self.code: list[list[input_type]] = code
+        self.code: list[list[Object]] = code
 
     @staticmethod
     def to_str(l):

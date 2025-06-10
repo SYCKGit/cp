@@ -136,9 +136,9 @@ class Parser:
                 if "indent" in signature(method).parameters.keys(): return method(m, till, indent)
                 else: return method(m, till)
 
-    def parse(self, till: int | None = None) -> list[list[input_type]]:
+    def parse(self, till: int | None = None) -> list[list[Object]]:
         till = till or len(self.code)
-        ret: list[list[input_type]] = []
+        ret: list[list[Object]] = []
         while self.pos < till:
             curr = []
             line = self.code[self.pos].strip()
