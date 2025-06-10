@@ -1,18 +1,26 @@
 # TODO: expressions instead of integers for bounds
 # TODO: checks (additional constraints for the objects, for example {int n [1, 10] check(n & 1) check(n > 5)s)})
 # TODO: eval operation (evaluation of any python expression)
+# TODO: support for trees
+# TODO: support for comments
 from .exceptions import *
 from .objects import *
 import re
 from inspect import signature
 from typing import overload
 
+__all__ = ["Parser"]
+
+name = r"(?P<name>\w+)"
+case = r"(?P<case>lower|upper)"
+rng = r"(\[\s*(?P<l>[\de]+)\s*,?\s*(?P<r>[\de]+)?\s*\])"
+
 class Parser:
     _op = re.compile(r"{[^}]+}")
     operations = [
-        re.compile(r"(?P<op>char)\s+(?P<name>\w+)(\s+(?P<case>lower|upper)?)?"),
-        re.compile(r"(?P<op>str)\s+(?P<name>\w+)(?P<case>\s+(lower|upper)?)?(\s*\[\s*((?P<l>[\de]+)\s*,)?\s*(?P<r>[\de]+)\s*\])?"),
-        re.compile(r"(?P<op>int|float)\s+(?P<n>\w+)\s+\[\s*(?P<l>[\de]+)\s*,\s*(?P<r>[\de]+)\s*\]"),
+        re.compile(rf"(?P<op>char)\s+{name}\s*{case}?"),
+        re.compile(rf"(?P<op>str)\s+{name}\s*{case}?\s*{rng}"),
+        re.compile(rf"(?P<op>int|float)\s+(?P<n>\w+)\s*{rng}"),
         re.compile(r"(?P<op>arr)\s+(?P<len>\w+)\s+(?P<type>.+)")
     ]
     controls = [

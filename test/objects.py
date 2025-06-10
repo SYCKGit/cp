@@ -40,10 +40,10 @@ class Object(ABC):
         return str(self)
 
 class Integer(Object):
-    def __init__(self, name: str, l: int, r: int):
+    def __init__(self, name: str, l: int, r: int | None = None):
         super().__init__(name)
         self.l: int = l
-        self.r: int = r
+        self.r: int = r or l
 
     def generate(self) -> int:
         return random.randint(self.l, self.r)
@@ -85,17 +85,13 @@ class Char(TextType):
         return self.getch()
 
 class String(TextType):
-    def __init__(self, name: str, case: Case, l: int | None, r: int):
+    def __init__(self, name: str, case: Case, l: int, r: int | None = None):
         super().__init__(name, case)
-        self.length: range | int = r
-        if l:
-            self.length = range(l, r+1)
+        self.l = l
+        self.r = r or l
 
     def generate(self) -> str:
-        l = self.length
-        if isinstance(l, range):
-            l = random.randrange(l.start, l.stop)
-        return "".join(self.getch() for _ in range(l))
+        return "".join(self.getch() for _ in range(random.randint(self.l, self.r)))
 
 class Array(Object):
     def __init__(self, length: str, type: Object):
