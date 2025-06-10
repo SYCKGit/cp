@@ -4,7 +4,7 @@ from .exceptions import *
 from inspect import signature
 
 class Generator():
-    def __init__(self, code: list[list[Object]] | Parser):
+    def __init__(self, code: list[list[input_type]] | Parser):
         if isinstance(code, Parser):
             code = code.parse()
         self.code: list[list[input_type]] = code
@@ -32,7 +32,7 @@ class Generator():
             for op in line:
                 if "values" in signature(op.generate).parameters:
                     val = op.generate(values=values)
-                else: val = op.generate()
+                else: val = op.generate() # type: ignore
                 if isinstance(op, Object):
                     values[op.name] = val
                     curr += str(val) + " "

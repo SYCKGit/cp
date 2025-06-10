@@ -1,7 +1,11 @@
+# TODO: expressions instead of integers for bounds
+# TODO: checks (additional constraints for the objects, for example {int n [1, 10] check(n & 1) check(n > 5)s)})
+# TODO: eval operation (evaluation of any python expression)
 from .exceptions import *
 from .objects import *
 import re
 from inspect import signature
+from typing import overload
 
 class Parser:
     _op = re.compile(r"{[^}]+}")
@@ -21,8 +25,16 @@ class Parser:
         self.code = code
         self.pos = 0
 
+    @overload
     @staticmethod
-    def to_int(x: str | None) -> int | None:
+    def to_int(x: str) -> int: ...
+
+    @overload
+    @staticmethod
+    def to_int(x: None) -> None: ...
+
+    @staticmethod
+    def to_int(x):
         if x is None: return
         if x.count("e") > 1:
             raise SyntaxError("There is more than one e")

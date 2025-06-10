@@ -110,7 +110,7 @@ class Array(Object):
         except KeyError:
             raise UnknownIdentifier(self.length)
         for _ in range(length):
-            ret.append(self.type.generate())
+            ret.append(self.type.generate()) # type: ignore
         return ret
 
 # CONTROL FLOWS
@@ -125,7 +125,7 @@ class ControlFlow(ABC):
             for op in line:
                 if "values" in signature(op.generate).parameters:
                     val = op.generate(values=values)
-                else: val = op.generate()
+                else: val = op.generate() # type: ignore
                 curr.append(val)
                 if isinstance(op, Object):
                     values[op.name] = val
@@ -139,7 +139,7 @@ class ControlFlow(ABC):
         return str(self)
 
 class Loop(ControlFlow):
-    def __init__(self, var: str, code: list[list[Object]]):
+    def __init__(self, var: str, code: list[list[input_type]]):
         super().__init__(code)
         self.var = var
 
