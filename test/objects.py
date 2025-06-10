@@ -16,6 +16,7 @@ __all__ = (
     "Char",
     "String",
     "Array",
+    "Eval",
     "ControlFlow",
     "Loop",
     "IfBlock",
@@ -108,6 +109,14 @@ class Array(Value):
             ret.append(self.type.generate()) # type: ignore
         return ret
 
+# OBJECTS
+class Eval(Object):
+    def __init__(self, code: str):
+        self.code = code
+
+    def generate(self, *, values: dict[str, Any]) -> Any:
+        return exec(self.code, globals(), values)
+
 # CONTROL FLOWS
 class ControlFlow(Object):
     def __init__(self, code: list[list[Object]]):
@@ -121,10 +130,12 @@ class ControlFlow(Object):
                 if "values" in signature(op.generate).parameters:
                     val = op.generate(values=values)
                 else: val = op.generate() # type: ignore
-                curr.append(val)
+                if isinstance(op, (Value, ControlFlow)):
+                    curr.append(val)
                 if isinstance(op, Value):
                     values[op.name] = val
-            ret.append(curr)
+            if curr:
+                ret.append(curr)
         return ret
 
     def __str__(self) -> str:

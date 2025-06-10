@@ -1,6 +1,5 @@
 # TODO: expressions instead of integers for bounds
 # TODO: checks (additional constraints for the objects, for example {int n [1, 10] check(n & 1) check(n > 5)s)})
-# TODO: eval operation (evaluation of any python expression)
 # TODO: support for trees
 # TODO: support for comments
 from .exceptions import *
@@ -21,11 +20,13 @@ class Parser:
         re.compile(rf"(?P<op>char)\s+{name}\s*{case}?"),
         re.compile(rf"(?P<op>str)\s+{name}\s*{case}?\s*{rng}"),
         re.compile(rf"(?P<op>int|float)\s+(?P<n>\w+)\s*{rng}"),
-        re.compile(r"(?P<op>arr)\s+(?P<len>\w+)\s+(?P<type>.+)")
+        re.compile(r"(?P<op>arr)\s+(?P<len>\w+)\s+(?P<type>.+)"),
+        re.compile(r"(?P<op>eval)\s+(?P<expr>.+)")
     ]
     controls = [
         re.compile(r"(?P<ctrl>loop)\s+(?P<var>\w+)"),
-        re.compile(r"(?P<ctrl>if)\s+(?P<cond>.+)")
+        re.compile(r"(?P<ctrl>if)\s+(?P<cond>.+)"),
+        re.compile(r"(?P<ctrl>exec)")
     ]
 
     def __init__(self, code: list[str] | str):
@@ -78,6 +79,21 @@ class Parser:
         if not op:
             raise UnknownStatement()
         return Array(m["len"], op)
+
+    def parse_eval(self, m: re.Match) -> Eval:
+        expr = m["expr"].strip()
+        if not expr:
+            raise SyntaxError("Expression for eval operation is empty")
+        return Eval(expr)
+
+    def parse_exec(self, m: re.Match, till: int) -> Eval:
+        code = ""
+        indent = self.get_indent(self.code[self.pos])
+        for i in range(self.pos, till):
+            code += self.code[i][indent:] + "\n"
+        ret = Eval(code.strip())
+        self.pos = till+1
+        return ret
 
     def parse_loop(self, m: re.Match, till: int) -> Loop:
         try:
