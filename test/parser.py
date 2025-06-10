@@ -12,7 +12,7 @@ __all__ = ["Parser"]
 
 name = r"(?P<name>\w+)"
 case = r"(?P<case>lower|upper)"
-rng = r"(\[\s*(?P<l>[\de]+)\s*,?\s*(?P<r>[\de]+)?\s*\])"
+rng = r"\[\s*(?P<l>.+?)\s*(?:,\s*(?P<r>.+?)\s*)?\]"
 
 class Parser:
     _op = re.compile(r"{[^}]+}")
@@ -34,24 +34,6 @@ class Parser:
         self.code = code
         self.pos = 0
 
-    @overload
-    @staticmethod
-    def to_int(x: str) -> int: ...
-
-    @overload
-    @staticmethod
-    def to_int(x: None) -> None: ...
-
-    @staticmethod
-    def to_int(x):
-        if x is None: return
-        if x.count("e") > 1:
-            raise SyntaxError("There is more than one e")
-        if (x.count("e")):
-            l, r = x.split("e")
-            return int(l + "0"*int(r))
-        return int(x)
-
     @staticmethod
     def get_indent(x: str) -> int:
         indent = re.match(r"\s+", x)
@@ -59,10 +41,10 @@ class Parser:
         else: return 0
 
     def parse_int(self, m: re.Match) -> Integer:
-        return Integer(m["n"], self.to_int(m["l"]), self.to_int(m["r"]))
+        return Integer(m["n"], m["l"], m["r"])
 
     def parse_float(self, m: re.Match) -> Float:
-        return Float(m["n"], self.to_int(m["l"]), self.to_int(m["r"]))
+        return Float(m["n"], m["l"], m["r"])
 
     def parse_char(self, m: re.Match) -> Char:
         case = m["case"]
@@ -72,7 +54,7 @@ class Parser:
     def parse_str(self, m: re.Match) -> String:
         case = m["case"]
         if case not in ("lower", "upper"): case = None
-        return String(m["name"], Case(case), self.to_int(m["l"]), self.to_int(m["r"]))
+        return String(m["name"], Case(case), m["l"], m["r"])
 
     def parse_arr(self, m: re.Match) -> Array:
         op = self.parse_op(m["type"])

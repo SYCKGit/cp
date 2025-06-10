@@ -10,14 +10,20 @@ class Generator():
         self.code: list[list[Object]] = code
 
     @staticmethod
-    def to_str(l):
+    def value_to_str(v):
+        if isinstance(v, list):
+            return " ".join(map(Generator.value_to_str, v))
+        return str(v)
+
+    @staticmethod
+    def ctrl_to_str(l):
         ret = ""
         for line in l:
             for op in line:
                 if isinstance(op, list):
                     if isinstance(op[0], list):
                         if ret[-1] != '\n': ret += '\n'
-                        ret += Generator.to_str(op)[:-1]
+                        ret += Generator.ctrl_to_str(op)[:-1]
                     else:
                         ret += " ".join(map(str, op))
                 else: ret += str(op) + " "
@@ -30,17 +36,15 @@ class Generator():
         for line in self.code:
             curr = ""
             for op in line:
-                if "values" in signature(op.generate).parameters:
-                    val = op.generate(values=values)
-                else: val = op.generate() # type: ignore
+                val = op.generate(values=values)
                 if isinstance(op, Value):
                     values[op.name] = val
-                    curr += str(val) + " "
+                    curr += self.value_to_str(val) + " "
                 elif isinstance(op, ControlFlow):
                     if curr:
                         ret += curr.strip() + "\n"
                         curr = ""
-                    ret += self.to_str(val)[:-1] + "\n"
+                    ret += self.ctrl_to_str(val)[:-1] + "\n"
             if curr:
                 ret += curr.strip() + "\n"
         return ret

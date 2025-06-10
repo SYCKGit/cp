@@ -39,26 +39,34 @@ class Value(Object):
     def __repr__(self) -> str:
         return str(self)
 
-class Integer(Value):
-    def __init__(self, name: str, l: int, r: int | None = None):
-        super().__init__(name)
-        self.l: int = l
-        self.r: int = r or l
+def get_range(values: dict[str, Any], sl: str, sr: str | None = None) -> tuple[int, int]:
+    l = int(eval(sl, globals(), values))
+    r = l
+    if sr: r = int(eval(sr, globals(), values))
+    return l, r
 
-    def generate(self) -> int:
-        return random.randint(self.l, self.r)
+class Integer(Value):
+    def __init__(self, name: str, l: str, r: str | None = None):
+        super().__init__(name)
+        self.l = l
+        self.r = r
+
+    def generate(self, *, values) -> int:
+        l, r = get_range(values, self.l, self.r)
+        return random.randint(l, r)
 
     def __str__(self):
         return f"Integer({self.name} [{self.l}, {self.r}])"
 
 class Float(Value):
-    def __init__(self, name: str, l: int, r: int):
+    def __init__(self, name: str, l: str, r: str | None = None):
         super().__init__(name)
         self.l = l
         self.r = r
 
-    def generate(self) -> float:
-        return self.l + random.random() * (self.r-self.l)
+    def generate(self, *, values) -> float:
+        l, r = get_range(values, self.l, self.r)
+        return l + random.random() * (r-l)
 
 class Case(Enum):
     none = None
@@ -81,17 +89,18 @@ class TextType(Value):
             return random.choice(string.ascii_letters)
 
 class Char(TextType):
-    def generate(self) -> str:
+    def generate(self, *, values) -> str:
         return self.getch()
 
 class String(TextType):
-    def __init__(self, name: str, case: Case, l: int, r: int | None = None):
+    def __init__(self, name: str, case: Case, l: str, r: str | None = None):
         super().__init__(name, case)
         self.l = l
-        self.r = r or l
+        self.r = r
 
-    def generate(self) -> str:
-        return "".join(self.getch() for _ in range(random.randint(self.l, self.r)))
+    def generate(self, *, values) -> str:
+        l, r = get_range(values, self.l, self.r)
+        return "".join(self.getch() for _ in range(random.randint(l, r)))
 
 class Array(Value):
     def __init__(self, length: str, type: Value):
@@ -99,14 +108,14 @@ class Array(Value):
         self.length = length
         super().__init__(type.name)
 
-    def generate(self, *, values: dict[str, Any]) -> list[Any]:
+    def generate(self, *, values) -> list[Any]:
         ret = []
         try:
             length = values[self.length]
         except KeyError:
             raise UnknownIdentifier(self.length)
         for _ in range(length):
-            ret.append(self.type.generate()) # type: ignore
+            ret.append(self.type.generate(values=values))
         return ret
 
 # OBJECTS
@@ -114,7 +123,7 @@ class Eval(Object):
     def __init__(self, code: str):
         self.code = code
 
-    def generate(self, *, values: dict[str, Any]) -> Any:
+    def generate(self, *, values) -> Any:
         return exec(self.code, globals(), values)
 
 # CONTROL FLOWS
@@ -122,14 +131,12 @@ class ControlFlow(Object):
     def __init__(self, code: list[list[Object]]):
         self.code = code
 
-    def generate(self, *, values: dict[str, Any]) -> list[list[Any]]:
+    def generate(self, *, values) -> list[list[Any]]:
         ret = []
         for line in self.code:
             curr = []
             for op in line:
-                if "values" in signature(op.generate).parameters:
-                    val = op.generate(values=values)
-                else: val = op.generate() # type: ignore
+                val = op.generate(values=values)
                 if isinstance(op, (Value, ControlFlow)):
                     curr.append(val)
                 if isinstance(op, Value):
@@ -170,7 +177,7 @@ class If(ControlFlow):
         self.blocks = blocks
         self.cond: str = cond
 
-    def generate(self, *, values):
+    def generate(self, *, values: dict[str, Any]):
         if eval(self.cond, globals(), values):
             return super().generate(values=values)
         for block in self.blocks:
