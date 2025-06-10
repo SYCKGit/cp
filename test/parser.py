@@ -1,6 +1,4 @@
-# TODO: expressions instead of integers for bounds
 # TODO: checks (additional constraints for the objects, for example {int n [1, 10] check(n & 1) check(n > 5)s)})
-# TODO: support for trees
 # TODO: support for comments
 from .exceptions import *
 from .objects import *
@@ -11,6 +9,7 @@ from typing import overload
 __all__ = ["Parser"]
 
 name = r"(?P<name>\w+)"
+len_grp = r"(?P<len>\w+)"
 case = r"(?P<case>lower|upper)"
 rng = r"\[\s*(?P<l>.+?)\s*(?:,\s*(?P<r>.+?)\s*)?\]"
 
@@ -20,8 +19,9 @@ class Parser:
         re.compile(rf"(?P<op>char)\s+{name}\s*{case}?"),
         re.compile(rf"(?P<op>str)\s+{name}\s*{case}?\s*{rng}"),
         re.compile(rf"(?P<op>int|float)\s+(?P<n>\w+)\s*{rng}"),
-        re.compile(r"(?P<op>arr)\s+(?P<len>\w+)\s+(?P<type>.+)"),
-        re.compile(r"(?P<op>eval)\s+(?P<expr>.+)")
+        re.compile(rf"(?P<op>arr)\s+{len_grp}\s+(?P<type>.+)"),
+        re.compile(r"(?P<op>eval)\s+(?P<expr>.+)"),
+        re.compile(rf"(?P<op>tree)\s+{name}\s*{len_grp}")
     ]
     controls = [
         re.compile(r"(?P<ctrl>loop)\s+(?P<var>\w+)"),
@@ -61,6 +61,9 @@ class Parser:
         if not op:
             raise UnknownStatement()
         return Array(m["len"], op)
+
+    def parse_tree(self, m: re.Match) -> Tree:
+        return Tree(m["name"], m["len"])
 
     def parse_eval(self, m: re.Match) -> Eval:
         expr = m["expr"].strip()

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .exceptions import *
 
-import random, string
+import random, string, heapq
 from abc import ABC, abstractmethod
 from enum import Enum
 from inspect import signature
@@ -16,6 +16,7 @@ __all__ = (
     "Char",
     "String",
     "Array",
+    "Tree",
     "Eval",
     "ControlFlow",
     "Loop",
@@ -117,6 +118,30 @@ class Array(Value):
         for _ in range(length):
             ret.append(self.type.generate(values=values))
         return ret
+
+class Tree(Value):
+    def __init__(self, name: str, length: str):
+        super().__init__(name)
+        self.length = length
+
+    def generate(self, *, values) -> list[list[str]]:
+        n = eval(self.length, globals(), values)
+        prufer = [random.randint(1, n) for _ in range(n-2)]
+        left = [0] * (n+1)
+        for i in prufer:
+            left[i] += 1
+        pq = []
+        for i in range(1, n+1):
+            if left[i] == 0:
+                heapq.heappush(pq, i)
+        res = []
+        for i in prufer:
+            res.append([heapq.heappop(pq), i])
+            left[i] -= 1
+            if left[i] == 0:
+                heapq.heappush(pq, i)
+        res.append([heapq.heappop(pq), heapq.heappop(pq)])
+        return res
 
 # OBJECTS
 class Eval(Object):

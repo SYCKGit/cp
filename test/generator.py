@@ -12,8 +12,12 @@ class Generator():
     @staticmethod
     def value_to_str(v):
         if isinstance(v, list):
-            return " ".join(map(Generator.value_to_str, v))
-        return str(v)
+            if isinstance(v[0], list):
+                ret = "\n".join(Generator.value_to_str(line) for line in v)
+                if ret[-1] != '\n': ret += '\n'
+                return ret
+            return " ".join(map(str, v))
+        return str(v) + " "
 
     @staticmethod
     def ctrl_to_str(l):
@@ -39,7 +43,7 @@ class Generator():
                 val = op.generate(values=values)
                 if isinstance(op, Value):
                     values[op.name] = val
-                    curr += self.value_to_str(val) + " "
+                    curr += self.value_to_str(val)
                 elif isinstance(op, ControlFlow):
                     if curr:
                         ret += curr.strip() + "\n"
