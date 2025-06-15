@@ -1,5 +1,3 @@
-# TODO: Implement auto template generator
-# TODO: Implement random auto checker
 from .parser import Parser
 from .generator import Generator
 from argparse import ArgumentParser

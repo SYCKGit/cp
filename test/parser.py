@@ -1,10 +1,7 @@
-# TODO: checks (additional constraints for the objects, for example {int n [1, 10] check(n & 1) check(n > 5)s)})
-# TODO: support for comments
 from .exceptions import *
 from .objects import *
 import re
 from inspect import signature
-from typing import overload
 
 __all__ = ["Parser"]
 

@@ -1,7 +1,6 @@
 from .parser import Parser
 from .objects import *
 from .exceptions import *
-from inspect import signature
 from typing import Any
 
 class Generator():

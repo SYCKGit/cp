@@ -4,8 +4,7 @@ from .exceptions import *
 import random, string, heapq
 from abc import ABC, abstractmethod
 from enum import Enum
-from inspect import signature
-from typing import Any, Union
+from typing import Any
 
 __all__ = (
     "Object",
