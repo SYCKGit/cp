@@ -2,6 +2,7 @@ from .parser import Parser
 from .objects import *
 from .exceptions import *
 from inspect import signature
+from typing import Any
 
 class Generator():
     def __init__(self, code: list[list[Object]] | Parser):
@@ -36,7 +37,7 @@ class Generator():
 
     def generate(self) -> str:
         ret = ""
-        values = {}
+        values: dict[str, Any] = {}
         for line in self.code:
             curr = ""
             for op in line:

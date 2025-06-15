@@ -124,13 +124,13 @@ class Tree(Value):
         super().__init__(name)
         self.length = length
 
-    def generate(self, *, values) -> list[list[str]]:
+    def generate(self, *, values) -> list[list[int]]:
         n = eval(self.length, globals(), values)
         prufer = [random.randint(1, n) for _ in range(n-2)]
         left = [0] * (n+1)
         for i in prufer:
             left[i] += 1
-        pq = []
+        pq: list[int] = []
         for i in range(1, n+1):
             if left[i] == 0:
                 heapq.heappush(pq, i)

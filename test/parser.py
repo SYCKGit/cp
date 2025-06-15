@@ -120,6 +120,7 @@ class Parser:
                 if not method:
                     raise NotImplementedError(f"Parse method for \"{m['op']}\" has not been implemented yet")
                 return method(m)
+        return None
 
     def parse_ctrl(self, ctrl: str, indent: int) -> ControlFlow | None:
         for p in self.controls:
@@ -136,6 +137,7 @@ class Parser:
                     raise EOFError(f"Control \"{m['ctrl']}\" has not been ended")
                 if "indent" in signature(method).parameters.keys(): return method(m, till, indent)
                 else: return method(m, till)
+        return None
 
     def parse(self, till: int | None = None) -> list[list[Object]]:
         till = till or len(self.code)
@@ -152,7 +154,7 @@ class Parser:
             indent = self.get_indent(self.code[self.pos])
             for op in ops:
                 try:
-                    parsed = self.parse_op(op[1:-1])
+                    parsed: Object | None = self.parse_op(op[1:-1])
                     if not parsed:
                         parsed = self.parse_ctrl(op[1:-1], indent)
                         if not parsed:
